@@ -19,7 +19,7 @@ const tierRequirements = {
 
 const tierOrder = ['insight', 'activate', 'transform'];
 
-// Initialize on DOM load
+// Initialize on DOM load - consolidated initialization
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializePlanSelector();
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSkillNetwork();
     animateMetrics();
     updatePlanLocks();
+    initializeFilterChips();
+    initializeProjectSelection();
+    initializeTabAnimationObserver();
 });
 
 // Navigation
@@ -232,6 +235,13 @@ function initializeCharts() {
     }
 }
 
+// Heatmap constants
+const HEATMAP_COLUMN_COUNT = 8;
+const HEATMAP_DENSITY_MULTIPLIER = 17;
+const HEATMAP_MIN_DENSITY = 10;
+const HEATMAP_MAX_DENSITY_RANGE = 90;
+const HEATMAP_CRITICAL_THRESHOLD = 25;
+
 // Initialize Heatmap
 function initializeHeatmap() {
     const heatmapGrid = document.getElementById('heatmapGrid');
@@ -265,9 +275,9 @@ function initializeHeatmap() {
             const cell = document.createElement('div');
             cell.className = 'heatmap-cell';
             
-            // Generate semi-random density value
-            const seed = rowIndex * 8 + colIndex;
-            const density = 10 + (seed * 17) % 90;
+            // Generate semi-random density value based on position
+            const seed = rowIndex * HEATMAP_COLUMN_COUNT + colIndex;
+            const density = HEATMAP_MIN_DENSITY + (seed * HEATMAP_DENSITY_MULTIPLIER) % HEATMAP_MAX_DENSITY_RANGE;
             
             // Color based on density
             const opacity = density / 100;
@@ -276,7 +286,7 @@ function initializeHeatmap() {
             cell.textContent = Math.floor(density);
             
             // Mark some cells as critical gaps
-            if (density < 25) {
+            if (density < HEATMAP_CRITICAL_THRESHOLD) {
                 cell.classList.add('critical');
             }
             
@@ -439,10 +449,21 @@ function animateMetrics() {
             bar.style.width = targetWidth + '%';
         }, 100);
     });
+    
+    // Animate capacity bars
+    const capacityBars = document.querySelectorAll('.capacity-bar');
+    capacityBars.forEach(bar => {
+        const targetWidth = bar.dataset.width;
+        if (targetWidth) {
+            setTimeout(() => {
+                bar.style.width = targetWidth + '%';
+            }, 100);
+        }
+    });
 }
 
 // Filter chips interaction
-document.addEventListener('DOMContentLoaded', function() {
+function initializeFilterChips() {
     const chips = document.querySelectorAll('.chip');
     chips.forEach(chip => {
         chip.addEventListener('click', function() {
@@ -454,10 +475,10 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('active');
         });
     });
-});
+}
 
 // Project selection in matching tab
-document.addEventListener('DOMContentLoaded', function() {
+function initializeProjectSelection() {
     const projectCards = document.querySelectorAll('.project-select-card');
     projectCards.forEach(card => {
         card.addEventListener('click', function() {
@@ -474,10 +495,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}
 
 // Re-initialize charts when switching tabs (for animations)
-document.addEventListener('DOMContentLoaded', function() {
+function initializeTabAnimationObserver() {
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if (mutation.attributeName === 'class') {
@@ -494,4 +515,4 @@ document.addEventListener('DOMContentLoaded', function() {
     tabs.forEach(tab => {
         observer.observe(tab, { attributes: true });
     });
-});
+}

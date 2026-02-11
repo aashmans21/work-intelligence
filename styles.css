@@ -427,7 +427,7 @@ body {
 }
 
 .chart-card-wide {
-    grid-column: 1 / 2;
+    grid-column: 1 / -1;
 }
 
 .chart-container {
@@ -518,6 +518,7 @@ body {
     height: 100%;
     background: var(--linkedin-blue);
     border-radius: 4px;
+    width: 0;
     transition: width 0.5s ease-out;
 }
 
@@ -642,6 +643,7 @@ body {
     height: 100%;
     background: var(--critical);
     border-radius: 4px;
+    width: 0;
     transition: width 0.5s ease-out;
 }
 
@@ -773,6 +775,7 @@ body {
     height: 100%;
     background: var(--linkedin-blue);
     border-radius: 3px;
+    width: 0;
     transition: width 0.5s ease-out;
 }
 
