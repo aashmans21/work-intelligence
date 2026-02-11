@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Work Intelligence - CoStar Group</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <svg class="linkedin-logo" width="40" height="40" viewBox="0 0 72 72" fill="white">
+                <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,0 64,0 L8,0 C3.581722,0 0,3.581722 0,8 L0,64 C0,68.418278 3.581722,72 8,72 Z" fill="#0077B5"/>
+                <path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z" fill="white"/>
+            </svg>
+            <div class="product-name">Work Intelligence</div>
+            <div class="client-badge">Client: CoStar Group</div>
+        </div>
+
+        <div class="plan-selector">
+            <div class="plan-badge" id="currentPlanBadge">Transform</div>
+            <select id="planDropdown" class="plan-dropdown">
+                <option value="insight">Insight</option>
+                <option value="activate">Activate</option>
+                <option value="transform" selected>Transform</option>
+            </select>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">WORKFORCE INTELLIGENCE</div>
+            <a href="#" class="nav-item active" data-tab="overview">
+                <span class="nav-icon">📊</span>
+                <span>Overview</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="heatmaps">
+                <span class="nav-icon">🔥</span>
+                <span>Skill Heatmaps</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="forecasting">
+                <span class="nav-icon">📈</span>
+                <span>Forecasting</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="risk">
+                <span class="nav-icon">⚠️</span>
+                <span>Risk Dashboard</span>
+            </a>
+
+            <div class="nav-section-label">TALENT DEPLOYMENT</div>
+            <a href="#" class="nav-item" data-tab="marketplace" data-tier="activate">
+                <span class="nav-icon">🏪</span>
+                <span>Marketplace</span>
+                <span class="lock-icon">🔒</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="matching" data-tier="activate">
+                <span class="nav-icon">🎯</span>
+                <span>AI Matching</span>
+                <span class="lock-icon">🔒</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="assembly" data-tier="activate">
+                <span class="nav-icon">👥</span>
+                <span>Team Assembly</span>
+                <span class="lock-icon">🔒</span>
+            </a>
+
+            <div class="nav-section-label">CAREER INTELLIGENCE</div>
+            <a href="#" class="nav-item" data-tab="profiles" data-tier="transform">
+                <span class="nav-icon">👤</span>
+                <span>Skill Profiles</span>
+                <span class="lock-icon">🔒</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="careers" data-tier="transform">
+                <span class="nav-icon">🛤️</span>
+                <span>Career Paths</span>
+                <span class="lock-icon">🔒</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="learning" data-tier="transform">
+                <span class="nav-icon">🎓</span>
+                <span>Learning Hub</span>
+                <span class="lock-icon">🔒</span>
+            </a>
+
+            <div class="nav-separator"></div>
+
+            <a href="#" class="nav-item" data-tab="plans">
+                <span class="nav-icon">💳</span>
+                <span>Plans & Features</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <svg class="footer-logo" width="20" height="20" viewBox="0 0 72 72">
+                <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,0 64,0 L8,0 C3.581722,0 0,3.581722 0,8 L0,64 C0,68.418278 3.581722,72 8,72 Z" fill="#ffffff"/>
+                <path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z" fill="#0077B5"/>
+            </svg>
+            <div class="footer-text">Powered by LinkedIn Economic Graph</div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="content-header">
+            <div class="user-info">
+                <div class="avatar-circle">AF</div>
+                <span class="user-name">Andrew Florance</span>
+            </div>
+        </header>
+
+        <!-- Upgrade Overlay (hidden by default) -->
+        <div id="upgradeOverlay" class="upgrade-overlay hidden">
+            <div class="upgrade-card">
+                <h3 id="upgradeTitle">Upgrade Required</h3>
+                <p id="upgradeMessage"></p>
+                <button class="btn btn-primary" onclick="closeUpgradeOverlay()">Got it</button>
+            </div>
+        </div>
+
+        <!-- Tab: Overview Dashboard -->
+        <section id="tab-overview" class="tab-content active">
+            <div class="page-header">
+                <h1>Workforce Intelligence Overview</h1>
+                <p class="subtitle">CoStar Group — 6,593 employees across 12 business units</p>
+            </div>
+
+            <div class="kpi-row">
+                <div class="kpi-card">
+                    <div class="kpi-label">Skills Mapped</div>
+                    <div class="kpi-value">23,847</div>
+                    <div class="kpi-change positive">↑12%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Skill Coverage</div>
+                    <div class="kpi-value">78%</div>
+                    <div class="kpi-change positive">↑4%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Internal Mobility</div>
+                    <div class="kpi-value">14.2%</div>
+                    <div class="kpi-change positive">↑18%</div>
+                    <div class="kpi-meta">vs 8.1% industry avg</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Adoption Readiness</div>
+                    <div class="kpi-value">B+</div>
+                    <div class="kpi-change neutral">—</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Reskill Velocity</div>
+                    <div class="kpi-value">3.4</div>
+                    <div class="kpi-meta">skills/emp/qtr</div>
+                    <div class="kpi-change positive">↑22%</div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="card chart-card-wide">
+                    <h3>Skill Distribution by Business Unit</h3>
+                    <div class="chart-container">
+                        <canvas id="skillDistributionChart"></canvas>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Skill Category Breakdown</h3>
+                    <div class="chart-container">
+                        <canvas id="categoryBreakdownChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="card chart-card">
+                    <div class="card-header-with-badge">
+                        <h3>Emerging Skills Velocity</h3>
+                        <span class="badge badge-info">LinkedIn Economic Graph</span>
+                    </div>
+                    <div class="velocity-list">
+                        <div class="velocity-item">
+                            <div class="velocity-info">
+                                <span class="velocity-name">AI/ML Engineering</span>
+                                <span class="velocity-badge surging">Surging</span>
+                            </div>
+                            <div class="velocity-bar-container">
+                                <div class="velocity-bar" style="width: 100%" data-width="100"></div>
+                            </div>
+                            <span class="velocity-percent">+340%</span>
+                        </div>
+                        <div class="velocity-item">
+                            <div class="velocity-info">
+                                <span class="velocity-name">3D Spatial Computing</span>
+                                <span class="velocity-badge surging">Surging</span>
+                            </div>
+                            <div class="velocity-bar-container">
+                                <div class="velocity-bar" style="width: 82%" data-width="82"></div>
+                            </div>
+                            <span class="velocity-percent">+280%</span>
+                        </div>
+                        <div class="velocity-item">
+                            <div class="velocity-info">
+                                <span class="velocity-name">Computer Vision</span>
+                                <span class="velocity-badge accelerating">Accelerating</span>
+                            </div>
+                            <div class="velocity-bar-container">
+                                <div class="velocity-bar" style="width: 56%" data-width="56"></div>
+                            </div>
+                            <span class="velocity-percent">+190%</span>
+                        </div>
+                        <div class="velocity-item">
+                            <div class="velocity-info">
+                                <span class="velocity-name">Prompt Engineering</span>
+                                <span class="velocity-badge accelerating">Accelerating</span>
+                            </div>
+                            <div class="velocity-bar-container">
+                                <div class="velocity-bar" style="width: 47%" data-width="47"></div>
+                            </div>
+                            <span class="velocity-percent">+160%</span>
+                        </div>
+                        <div class="velocity-item">
+                            <div class="velocity-info">
+                                <span class="velocity-name">Data Storytelling</span>
+                                <span class="velocity-badge growing">Growing</span>
+                            </div>
+                            <div class="velocity-bar-container">
+                                <div class="velocity-bar" style="width: 28%" data-width="28"></div>
+                            </div>
+                            <span class="velocity-percent">+95%</span>
+                        </div>
+                        <div class="velocity-item">
+                            <div class="velocity-info">
+                                <span class="velocity-name">Digital Twin Management</span>
+                                <span class="velocity-badge growing">Growing</span>
+                            </div>
+                            <div class="velocity-bar-container">
+                                <div class="velocity-bar" style="width: 26%" data-width="26"></div>
+                            </div>
+                            <span class="velocity-percent">+88%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Workforce Risk Snapshot</h3>
+                    <div class="risk-grid">
+                        <div class="risk-box risk-medium">
+                            <div class="risk-value">23</div>
+                            <div class="risk-label">Single-Point Skills</div>
+                        </div>
+                        <div class="risk-box risk-low">
+                            <div class="risk-value">72%</div>
+                            <div class="risk-label">Succession Readiness</div>
+                        </div>
+                        <div class="risk-box risk-high">
+                            <div class="risk-value">847</div>
+                            <div class="risk-label">Attrition Vulnerability</div>
+                        </div>
+                        <div class="risk-box risk-medium">
+                            <div class="risk-value">61%</div>
+                            <div class="risk-label">Matterport Integration</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Skill Heatmaps -->
+        <section id="tab-heatmaps" class="tab-content">
+            <div class="page-header">
+                <h1>Operational Friction Hotspots</h1>
+                <div class="filter-bar">
+                    <select class="filter-dropdown">
+                        <option>All Business Units</option>
+                        <option>Homes.com</option>
+                        <option>CoStar Commercial</option>
+                        <option>Apartments.com</option>
+                        <option>Matterport</option>
+                        <option>LoopNet</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div id="heatmapGrid" class="heatmap-grid"></div>
+            </div>
+
+            <div class="chart-row">
+                <div class="card chart-card">
+                    <div class="card-header-with-badge">
+                        <h3>Skill Scarcity Index</h3>
+                        <span class="badge badge-critical">Action Required</span>
+                    </div>
+                    <div class="scarcity-list">
+                        <div class="scarcity-item">
+                            <div class="scarcity-name">3D Reconstruction Engineering</div>
+                            <div class="scarcity-bar-container">
+                                <div class="scarcity-bar" style="width: 12.3%" data-width="12.3"></div>
+                            </div>
+                            <div class="scarcity-count">8 / 65 needed</div>
+                        </div>
+                        <div class="scarcity-item">
+                            <div class="scarcity-name">MLOps</div>
+                            <div class="scarcity-bar-container">
+                                <div class="scarcity-bar" style="width: 22.6%" data-width="22.6"></div>
+                            </div>
+                            <div class="scarcity-count">14 / 62 needed</div>
+                        </div>
+                        <div class="scarcity-item">
+                            <div class="scarcity-name">AI Product Management</div>
+                            <div class="scarcity-bar-container">
+                                <div class="scarcity-bar" style="width: 30%" data-width="30"></div>
+                            </div>
+                            <div class="scarcity-count">12 / 40 needed</div>
+                        </div>
+                        <div class="scarcity-item">
+                            <div class="scarcity-name">Computer Vision + LiDAR</div>
+                            <div class="scarcity-bar-container">
+                                <div class="scarcity-bar" style="width: 17.9%" data-width="17.9"></div>
+                            </div>
+                            <div class="scarcity-count">5 / 28 needed</div>
+                        </div>
+                        <div class="scarcity-item">
+                            <div class="scarcity-name">Natural Language Processing</div>
+                            <div class="scarcity-bar-container">
+                                <div class="scarcity-bar" style="width: 35%" data-width="35"></div>
+                            </div>
+                            <div class="scarcity-count">21 / 60 needed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Skill Network</h3>
+                    <div id="skillNetwork" class="skill-network-container"></div>
+                    <div class="network-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot legend-strong"></span>
+                            <span>Strong</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot legend-gap"></span>
+                            <span>Gap</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot legend-emerging"></span>
+                            <span>Emerging</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Forecasting -->
+        <section id="tab-forecasting" class="tab-content">
+            <div class="page-header">
+                <h1>Workforce Forecasting</h1>
+                <p class="subtitle">12-month skill demand projection</p>
+            </div>
+            <div class="card">
+                <h3>Coming Soon</h3>
+                <p>Advanced forecasting models based on business growth, market trends, and LinkedIn Economic Graph insights.</p>
+            </div>
+        </section>
+
+        <!-- Tab: Risk Dashboard -->
+        <section id="tab-risk" class="tab-content">
+            <div class="page-header">
+                <h1>Risk Dashboard</h1>
+                <p class="subtitle">Talent risk assessment and mitigation</p>
+            </div>
+            <div class="card">
+                <h3>Coming Soon</h3>
+                <p>Comprehensive risk analysis including attrition prediction, succession planning, and critical skill dependencies.</p>
+            </div>
+        </section>
+
+        <!-- Tab: Marketplace -->
+        <section id="tab-marketplace" class="tab-content">
+            <div class="page-header">
+                <h1>Project Marketplace</h1>
+                <p class="subtitle">Active projects seeking skills-based contributors</p>
+                <div class="filter-bar">
+                    <div class="filter-chips">
+                        <span class="chip active">All</span>
+                        <span class="chip">Homes.com</span>
+                        <span class="chip">Matterport</span>
+                        <span class="chip">CoStar</span>
+                        <span class="chip">Cross-Functional</span>
+                    </div>
+                    <button class="btn btn-primary">Create Project</button>
+                </div>
+            </div>
+
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>AI Smart Search v2</h3>
+                        <span class="priority-badge high">High Priority</span>
+                    </div>
+                    <div class="project-meta">Homes.com · 12 weeks</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AI/ML</span>
+                        <span class="skill-tag">NLP</span>
+                        <span class="skill-tag">3D Spatial</span>
+                        <span class="skill-tag">UX</span>
+                        <span class="skill-tag">PM</span>
+                    </div>
+                    <div class="capacity-bar-container">
+                        <div class="capacity-bar" style="width: 66.7%"></div>
+                    </div>
+                    <div class="capacity-text">6/9 filled</div>
+                    <button class="btn btn-secondary">View Matches</button>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Matterport Integration</h3>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                    <div class="project-meta">Apartments.com · 8 weeks</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">API</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">3D Rendering</span>
+                        <span class="skill-tag">QA</span>
+                    </div>
+                    <div class="capacity-bar-container">
+                        <div class="capacity-bar" style="width: 42.9%"></div>
+                    </div>
+                    <div class="capacity-text">3/7 filled</div>
+                    <button class="btn btn-secondary">View Matches</button>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Predictive Pricing Engine</h3>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                    <div class="project-meta">CoStar · 16 weeks</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ML</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">CRE Analytics</span>
+                        <span class="skill-tag">Data Eng</span>
+                    </div>
+                    <div class="capacity-bar-container">
+                        <div class="capacity-bar" style="width: 40%"></div>
+                    </div>
+                    <div class="capacity-text">2/5 filled</div>
+                    <button class="btn btn-secondary">View Matches</button>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Agent Onboarding Automation</h3>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                    <div class="project-meta">Cross-Functional · 6 weeks</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Instructional Design</span>
+                        <span class="skill-tag">AI Tools</span>
+                        <span class="skill-tag">Sales</span>
+                    </div>
+                    <div class="capacity-bar-container">
+                        <div class="capacity-bar" style="width: 25%"></div>
+                    </div>
+                    <div class="capacity-text">1/4 filled</div>
+                    <button class="btn btn-secondary">View Matches</button>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Digital Twin Analytics Dashboard</h3>
+                        <span class="priority-badge exploratory">Exploratory</span>
+                    </div>
+                    <div class="project-meta">Cross-Functional · 10 weeks</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Viz</span>
+                        <span class="skill-tag">Spatial</span>
+                        <span class="skill-tag">D3.js</span>
+                    </div>
+                    <div class="capacity-bar-container">
+                        <div class="capacity-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="capacity-text">0/6 filled</div>
+                    <button class="btn btn-secondary">View Matches</button>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Richmond Campus Culture Sprint</h3>
+                        <span class="priority-badge exploratory">Exploratory</span>
+                    </div>
+                    <div class="project-meta">Cross-Functional · 4 weeks</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Org Design</span>
+                        <span class="skill-tag">Change Mgmt</span>
+                    </div>
+                    <div class="capacity-bar-container">
+                        <div class="capacity-bar" style="width: 40%"></div>
+                    </div>
+                    <div class="capacity-text">2/5 filled</div>
+                    <button class="btn btn-secondary">View Matches</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: AI Matching -->
+        <section id="tab-matching" class="tab-content">
+            <div class="page-header">
+                <h1>AI Skill Matching</h1>
+            </div>
+
+            <div class="matching-layout">
+                <div class="matching-sidebar">
+                    <h3>Select Project</h3>
+                    <div class="project-select-card active" data-project="ai-search">
+                        <div class="project-select-title">AI Smart Search v2</div>
+                        <div class="project-select-meta">Homes.com · 12w</div>
+                    </div>
+                    <div class="project-select-card" data-project="matterport">
+                        <div class="project-select-title">Matterport Integration</div>
+                        <div class="project-select-meta">Apartments.com · 8w</div>
+                    </div>
+                    <div class="project-select-card" data-project="pricing">
+                        <div class="project-select-title">Predictive Pricing Engine</div>
+                        <div class="project-select-meta">CoStar · 16w</div>
+                    </div>
+                </div>
+
+                <div class="matching-main">
+                    <h2>Top Matches — AI Smart Search v2</h2>
+                    <div class="match-cards">
+                        <div class="match-card">
+                            <div class="match-header">
+                                <div class="avatar-gradient avatar-purple">SK</div>
+                                <div class="match-info">
+                                    <div class="match-name">Sarah Kim</div>
+                                    <div class="match-role">Sr. NLP Engineer · CoStar Research</div>
+                                </div>
+                            </div>
+                            <div class="match-skills">
+                                <span class="match-skill hi">NLP</span>
+                                <span class="match-skill hi">Python</span>
+                                <span class="match-skill md">LLM</span>
+                                <span class="match-skill bonus">Search</span>
+                            </div>
+                            <div class="match-scores">
+                                <div class="score-circle score-high">
+                                    <div class="score-value">94</div>
+                                    <div class="score-label">Skill Match</div>
+                                </div>
+                                <div class="score-circle score-high">
+                                    <div class="score-value">88</div>
+                                    <div class="score-label">Readiness</div>
+                                </div>
+                                <div class="score-circle score-medium">
+                                    <div class="score-value">65</div>
+                                    <div class="score-label">Capacity</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">Assign</button>
+                        </div>
+
+                        <div class="match-card">
+                            <div class="match-header">
+                                <div class="avatar-gradient avatar-blue">RP</div>
+                                <div class="match-info">
+                                    <div class="match-name">Raj Patel</div>
+                                    <div class="match-role">3D Engineer · Matterport</div>
+                                </div>
+                            </div>
+                            <div class="match-skills">
+                                <span class="match-skill hi">3D</span>
+                                <span class="match-skill hi">WebGL</span>
+                                <span class="match-skill md">CV</span>
+                                <span class="match-skill bonus">React</span>
+                            </div>
+                            <div class="match-scores">
+                                <div class="score-circle score-high">
+                                    <div class="score-value">91</div>
+                                    <div class="score-label">Skill Match</div>
+                                </div>
+                                <div class="score-circle score-high">
+                                    <div class="score-value">82</div>
+                                    <div class="score-label">Readiness</div>
+                                </div>
+                                <div class="score-circle score-high">
+                                    <div class="score-value">90</div>
+                                    <div class="score-label">Capacity</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">Assign</button>
+                        </div>
+
+                        <div class="match-card">
+                            <div class="match-header">
+                                <div class="avatar-gradient avatar-green">ML</div>
+                                <div class="match-info">
+                                    <div class="match-name">Maya Lin</div>
+                                    <div class="match-role">Lead UX · Homes.com</div>
+                                </div>
+                            </div>
+                            <div class="match-skills">
+                                <span class="match-skill hi">UX</span>
+                                <span class="match-skill hi">Research</span>
+                                <span class="match-skill md">Proto</span>
+                                <span class="match-skill bonus">AI UX</span>
+                            </div>
+                            <div class="match-scores">
+                                <div class="score-circle score-high">
+                                    <div class="score-value">87</div>
+                                    <div class="score-label">Skill Match</div>
+                                </div>
+                                <div class="score-circle score-high">
+                                    <div class="score-value">91</div>
+                                    <div class="score-label">Readiness</div>
+                                </div>
+                                <div class="score-circle score-low">
+                                    <div class="score-value">35</div>
+                                    <div class="score-label">Capacity</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-warning">Waitlist</button>
+                        </div>
+
+                        <div class="match-card">
+                            <div class="match-header">
+                                <div class="avatar-gradient avatar-orange">JC</div>
+                                <div class="match-info">
+                                    <div class="match-name">James Chen</div>
+                                    <div class="match-role">Full-Stack · LoopNet</div>
+                                </div>
+                            </div>
+                            <div class="match-skills">
+                                <span class="match-skill md">React</span>
+                                <span class="match-skill md">Node</span>
+                                <span class="match-skill bonus">API</span>
+                                <span class="match-skill bonus">Search</span>
+                            </div>
+                            <div class="match-scores">
+                                <div class="score-circle score-medium">
+                                    <div class="score-value">72</div>
+                                    <div class="score-label">Skill Match</div>
+                                </div>
+                                <div class="score-circle score-medium">
+                                    <div class="score-value">68</div>
+                                    <div class="score-label">Readiness</div>
+                                </div>
+                                <div class="score-circle score-high">
+                                    <div class="score-value">95</div>
+                                    <div class="score-label">Capacity</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary">Review</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Team Assembly -->
+        <section id="tab-assembly" class="tab-content">
+            <div class="page-header">
+                <div class="assembly-banner">
+                    <div class="assembly-title-group">
+                        <h1>AI Smart Search v2 — Optimal Team</h1>
+                        <p class="subtitle">9 positions · 12 weeks · Cross-functional pod</p>
+                    </div>
+                    <div class="team-fit-circle">
+                        <svg width="100" height="100">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#d9d9d9" stroke-width="8"/>
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#0A66C2" stroke-width="8" 
+                                    stroke-dasharray="251.2" stroke-dashoffset="30" 
+                                    transform="rotate(-90 50 50)" stroke-linecap="round"/>
+                        </svg>
+                        <div class="fit-score">88</div>
+                        <div class="fit-label">Team Fit</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-slot filled">
+                    <div class="slot-header">NLP Lead</div>
+                    <div class="avatar-gradient avatar-purple">SK</div>
+                    <div class="slot-name">Sarah Kim</div>
+                    <div class="slot-origin">CoStar Research</div>
+                    <div class="slot-fit">94% fit</div>
+                </div>
+
+                <div class="team-slot filled">
+                    <div class="slot-header">3D Specialist</div>
+                    <div class="avatar-gradient avatar-blue">RP</div>
+                    <div class="slot-name">Raj Patel</div>
+                    <div class="slot-origin">Matterport</div>
+                    <div class="slot-fit">91% fit</div>
+                </div>
+
+                <div class="team-slot filled">
+                    <div class="slot-header">UX Lead</div>
+                    <div class="avatar-gradient avatar-green">ML</div>
+                    <div class="slot-name">Maya Lin</div>
+                    <div class="slot-origin">Homes.com</div>
+                    <div class="slot-fit">87% fit</div>
+                </div>
+
+                <div class="team-slot filled">
+                    <div class="slot-header">Backend</div>
+                    <div class="avatar-gradient avatar-orange">JC</div>
+                    <div class="slot-name">James Chen</div>
+                    <div class="slot-origin">LoopNet</div>
+                    <div class="slot-fit">72% fit</div>
+                </div>
+
+                <div class="team-slot filled">
+                    <div class="slot-header">Data Engineer</div>
+                    <div class="avatar-gradient avatar-teal">AT</div>
+                    <div class="slot-name">Anika Torres</div>
+                    <div class="slot-origin">CoStar Analytics</div>
+                    <div class="slot-fit">85% fit</div>
+                </div>
+
+                <div class="team-slot filled">
+                    <div class="slot-header">Product Manager</div>
+                    <div class="avatar-gradient avatar-indigo">DW</div>
+                    <div class="slot-name">Derek Wang</div>
+                    <div class="slot-origin">Homes.com</div>
+                    <div class="slot-fit">79% fit</div>
+                </div>
+
+                <div class="team-slot open">
+                    <div class="slot-header">ML Engineer</div>
+                    <div class="avatar-open">?</div>
+                    <div class="slot-name">3 candidates reviewed</div>
+                    <button class="btn btn-small">Fill</button>
+                </div>
+
+                <div class="team-slot open">
+                    <div class="slot-header">QA</div>
+                    <div class="avatar-open">?</div>
+                    <div class="slot-name">5 candidates reviewed</div>
+                    <button class="btn btn-small">Fill</button>
+                </div>
+
+                <div class="team-slot open">
+                    <div class="slot-header">DevOps</div>
+                    <div class="avatar-open">?</div>
+                    <div class="slot-name">2 candidates reviewed</div>
+                    <button class="btn btn-small">Fill</button>
+                </div>
+            </div>
+
+            <div class="insight-row">
+                <div class="insight-card insight-warning">
+                    <div class="insight-icon">⚡</div>
+                    <div class="insight-content">
+                        <div class="insight-title">Redundancy</div>
+                        <div class="insight-text">Sarah & James both cover Search — swap for pure ML eng.</div>
+                    </div>
+                </div>
+                <div class="insight-card insight-info">
+                    <div class="insight-icon">🔗</div>
+                    <div class="insight-content">
+                        <div class="insight-title">Cross-Unit</div>
+                        <div class="insight-text">4 BUs. Weekly sync + shared channel recommended.</div>
+                    </div>
+                </div>
+                <div class="insight-card insight-warning">
+                    <div class="insight-icon">📊</div>
+                    <div class="insight-content">
+                        <div class="insight-title">Capacity</div>
+                        <div class="insight-text">Maya at 35% avail. Consider backup UX.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Skill Profiles -->
+        <section id="tab-profiles" class="tab-content">
+            <div class="page-header">
+                <h1>AI Skill Profiles</h1>
+                <p class="subtitle">Comprehensive skill mapping and validation</p>
+            </div>
+            <div class="card">
+                <h3>Coming Soon</h3>
+                <p>AI-powered skill profiles with LinkedIn validation, self-assessments, and peer endorsements.</p>
+            </div>
+        </section>
+
+        <!-- Tab: Career Paths -->
+        <section id="tab-careers" class="tab-content">
+            <div class="page-header">
+                <h1>Career Paths</h1>
+                <p class="subtitle">Dynamic career progression mapping</p>
+            </div>
+            <div class="card">
+                <h3>Coming Soon</h3>
+                <p>Personalized career pathways based on skills, interests, and organizational needs.</p>
+            </div>
+        </section>
+
+        <!-- Tab: Learning Hub -->
+        <section id="tab-learning" class="tab-content">
+            <div class="page-header">
+                <h1>Learning Hub</h1>
+                <p class="subtitle">Curated learning resources and skill development</p>
+            </div>
+            <div class="card">
+                <h3>Coming Soon</h3>
+                <p>AI-recommended learning paths with LinkedIn Learning integration and skill gap closure tracking.</p>
+            </div>
+        </section>
+
+        <!-- Tab: Plans & Features -->
+        <section id="tab-plans" class="tab-content">
+            <div class="page-header">
+                <h1>Plans & Features</h1>
+                <p class="subtitle">Choose the right plan for your organization</p>
+            </div>
+
+            <div class="plans-grid">
+                <div class="plan-card plan-insight">
+                    <div class="plan-header">
+                        <h3>Insight</h3>
+                        <div class="plan-price">$18<span>/emp/mo</span></div>
+                        <p class="plan-description">Essential workforce intelligence and analytics</p>
+                    </div>
+                    <div class="plan-features">
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Workforce Intelligence</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Skill Heatmaps</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Forecasting</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Risk Dashboard</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Economic Graph Benchmarks</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Reskill Matrix</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Marketplace</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>AI Matching</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Team Assembly</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Skill Profiles</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Career Paths</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Learning Hub</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline">Select Plan</button>
+                </div>
+
+                <div class="plan-card plan-activate featured">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="plan-header">
+                        <h3>Activate</h3>
+                        <div class="plan-price">$32<span>/emp/mo</span></div>
+                        <p class="plan-description">Activate talent deployment and mobility</p>
+                    </div>
+                    <div class="plan-features">
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Everything in Insight</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Marketplace</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>AI Matching</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Team Assembly</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Capacity Dashboard</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Succession Mapping</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Skill Profiles</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Career Paths</span>
+                        </div>
+                        <div class="feature-item locked">
+                            <span class="feature-icon">🔒</span>
+                            <span>Learning Hub</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Select Plan</button>
+                </div>
+
+                <div class="plan-card plan-transform">
+                    <div class="plan-header">
+                        <h3>Transform</h3>
+                        <div class="plan-price">$48<span>/emp/mo</span></div>
+                        <p class="plan-description">Complete career intelligence and transformation</p>
+                    </div>
+                    <div class="plan-features">
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Everything in Activate</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>AI Skill Profiles</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Career Paths</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Learning Hub</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Opportunity Matching</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Adoption Toolkit</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Dedicated Success Mgr</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Custom API</span>
+                        </div>
+                        <div class="feature-item included">
+                            <span class="feature-icon">✓</span>
+                            <span>Exec Strategy Sessions</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline">Select Plan</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
