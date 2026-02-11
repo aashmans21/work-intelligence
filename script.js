@@ -233,6 +233,176 @@ function initializeCharts() {
             }
         });
     }
+    
+    // Forecast Chart (Skill Demand Trajectory)
+    const forecastCtx = document.getElementById('forecastChart');
+    if (forecastCtx) {
+        charts.forecast = new Chart(forecastCtx, {
+            type: 'line',
+            data: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q1+1', 'Q2+1', 'Q3+1', 'Q4+1', 'Q1+2', 'Q2+2', 'Q3+2', 'Q4+2'],
+                datasets: [
+                    {
+                        label: 'AI/ML',
+                        data: [100, 110, 125, 140, 160, 185, 215, 250, 290, 335, 385, 440],
+                        borderColor: '#388e3c',
+                        backgroundColor: 'rgba(56, 142, 60, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: '3D Spatial',
+                        data: [50, 58, 70, 85, 105, 130, 160, 195, 235, 280, 330, 385],
+                        borderColor: '#0A66C2',
+                        backgroundColor: 'rgba(10, 102, 194, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Cloud',
+                        data: [200, 210, 220, 230, 240, 245, 250, 255, 260, 262, 264, 265],
+                        borderColor: '#006599',
+                        backgroundColor: 'rgba(0, 101, 153, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Data Eng',
+                        data: [180, 185, 195, 205, 215, 225, 240, 255, 270, 285, 300, 315],
+                        borderColor: '#ffa726',
+                        backgroundColor: 'rgba(255, 167, 38, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Product Mgmt',
+                        data: [120, 125, 135, 145, 155, 165, 175, 185, 195, 205, 215, 225],
+                        borderColor: '#f57c00',
+                        backgroundColor: 'rgba(245, 124, 0, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Traditional IT',
+                        data: [300, 290, 280, 265, 250, 235, 220, 205, 190, 175, 160, 145],
+                        borderColor: '#d32f2f',
+                        backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Succession Readiness Chart
+    const successionCtx = document.getElementById('successionChart');
+    if (successionCtx) {
+        charts.succession = new Chart(successionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Finance', 'HR', 'Sales', 'Marketing', 'Product', 'Operations', 'Data Science', 'Engineering'],
+                datasets: [{
+                    label: 'Readiness %',
+                    data: [85, 82, 78, 71, 68, 58, 52, 45],
+                    backgroundColor: [
+                        '#388e3c',
+                        '#388e3c',
+                        '#388e3c',
+                        '#ffa726',
+                        '#ffa726',
+                        '#ffa726',
+                        '#d32f2f',
+                        '#d32f2f'
+                    ]
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Learning by Department Chart
+    const learningCtx = document.getElementById('learningChart');
+    if (learningCtx) {
+        charts.learning = new Chart(learningCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Engineering', 'Product', 'Data Science', 'Sales', 'Marketing', 'HR', 'Finance', 'Operations'],
+                datasets: [{
+                    label: 'Courses Completed',
+                    data: [3240, 2180, 1920, 1650, 1420, 980, 560, 390],
+                    backgroundColor: '#0A66C2'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
 }
 
 // Heatmap constants
