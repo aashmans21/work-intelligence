@@ -75,6 +75,13 @@ function switchTab(tabId) {
     if (selectedTab) {
         selectedTab.classList.add('active');
     }
+    
+    // Reset scroll position to top
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.scrollTop = 0;
+    }
+    window.scrollTo(0, 0);
 }
 
 // Plan Selector
